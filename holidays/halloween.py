@@ -142,13 +142,9 @@ def display(pixels, light_strip: LightStrip, duration=60, image=BAT):
 
     # assign image data
     for index, row_pixel_data in enumerate(row_data):
-      print(index, row_pixel_data)
       for pixel_data in row_pixel_data:
-        print(pixel_data)
         color, offsets = pixel_data
-        print(color, offsets)
         for offset in offsets:
-          print(offset)
           pixels[(16 * (row + index)) + column + offset] = color
           pixels[(16 * (row + index)) + (15 - column - offset)] = color
 
