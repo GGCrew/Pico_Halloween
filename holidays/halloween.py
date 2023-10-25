@@ -180,7 +180,9 @@ def copy_pumpkin_data_to_pixel_array(pixels):
     pixels[(16 * row) + (15 - column - offset)] = COLOR_1
 
 
-def copy_skull_data_to_pixel_array(pixels, frame=0):
+def skull_image_data(frame=0) -> dict:
+  row = 1
+  column = 2
   frame = frame % 2
   if frame == 0:
     row_data = [
@@ -216,22 +218,12 @@ def copy_skull_data_to_pixel_array(pixels, frame=0):
       [ [COLOR_1, [4, 5]] ]
     ]
 
-  for pixel_index in range(len(pixels)):
-    pixels[pixel_index] = BLACK
-
-  row = 1
-  column = 2
-
-  for index, row_pixel_data in enumerate(row_data):
-    print(index, row_pixel_data)
-    for pixel_data in row_pixel_data:
-      print(pixel_data)
-      color, offsets = pixel_data
-      print(color, offsets)
-      for offset in offsets:
-        print(offset)
-        pixels[(16 * (row + index)) + column + offset] = color
-        pixels[(16 * (row + index)) + (15 - column - offset)] = color
+  return {
+    'row': row,
+    'column': column,
+    'frame': frame,
+    'row_data': row_data
+  }
 
 
 def apply_colors(pixels, image):
@@ -268,7 +260,27 @@ def display(pixels, light_strip: LightStrip, duration=60, image=SKULL):
     elif image == PUMPKIN:
       copy_pumpkin_data_to_pixel_array(pixels=pixels)
     elif image == SKULL:
-      copy_skull_data_to_pixel_array(pixels=pixels, frame=frame)
+      # copy_skull_data_to_pixel_array(pixels=pixels, frame=frame)
+      for pixel_index in range(len(pixels)):
+        pixels[pixel_index] = BLACK
+
+      image_data = skull_image_data(frame)
+      row = image_data['row']
+      column = image_data['column']
+      frame = image_data['frame']
+      row_data = image_data['row_data']
+
+      for index, row_pixel_data in enumerate(row_data):
+        print(index, row_pixel_data)
+        for pixel_data in row_pixel_data:
+          print(pixel_data)
+          color, offsets = pixel_data
+          print(color, offsets)
+          for offset in offsets:
+            print(offset)
+            pixels[(16 * (row + index)) + column + offset] = color
+            pixels[(16 * (row + index)) + (15 - column - offset)] = color
+
       frame += 1
 
     apply_colors(pixels=pixels, image=image)
