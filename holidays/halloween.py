@@ -10,18 +10,22 @@ PUMPKIN = 1
 SKULL = 3
 BOO = 4
 EYES = 5
+GHOST = 6
 
 IMAGES = [
   BAT,
   PUMPKIN,
   SKULL,
-  EYES
+  EYES,
+  GHOST
 ]
 
 
 def load_image_data(image=SKULL, frame=0) -> dict:
   COLOR_1 = 1
   COLOR_2 = 2
+  COLOR_3 = 3
+  COLOR_4 = 4
 
   row = 0
   column = 0
@@ -143,6 +147,44 @@ def load_image_data(image=SKULL, frame=0) -> dict:
       [ [COLOR_2, range(0, 6)] ],
       [ [COLOR_2, range(1, 5)] ],
     ]
+  elif image == GHOST:
+    positions = [
+      [2, 3],
+      [1, 2],
+      [2, 1],
+      [2, 0],
+      [3, 1],
+      [4, 2],
+      [3, 3],
+      [2, 4],
+      [3, 5],
+      [2, 6],
+      [1, 5],
+      [2, 4],
+      [3, 4],
+      [2, 3],
+      [1, 4],
+    ]
+
+    internal_frame_delay = 2
+
+    frame = frame % (len(positions) * internal_frame_delay)
+    row, column = positions[frame // internal_frame_delay]
+
+    mirror = False
+    row_data = [
+      [ [COLOR_1, [4, 5]] ],
+      [ [COLOR_1, range(3, 7)] ],
+      [ [COLOR_1, [0, 1, 3, 6, 8, 9]], [COLOR_2, [4, 5]] ],
+      [ [COLOR_1, range(1, 9)] ],
+      [ [COLOR_1, range(2, 8)] ],
+      [ [COLOR_1, range(3, 7)] ],
+      [ [COLOR_1, range(3, 7)] ],
+      [ [COLOR_1, [4, 5]], [COLOR_3, [3, 6]] ],
+      [ [COLOR_3, range(3, 7)] ],
+      [ [COLOR_3, [4, 5]], [COLOR_4, [2, 3, 6, 7]] ],
+      [ [COLOR_4, range(2, 8)] ],
+    ]
 
   return {
     'row': row,
@@ -154,6 +196,7 @@ def load_image_data(image=SKULL, frame=0) -> dict:
 
 
 def apply_colors(pixels, image):
+  colors = []
   if image == BAT:
     colors = [
       int(1),
@@ -172,8 +215,7 @@ def apply_colors(pixels, image):
   elif image == BOO:
     colors = [
       BLACK,
-      int((1 << 16) + (1 << 8) + 4)
-    ]
+      int((1 << 16) + (1 << 8) + 4)]
   elif image == EYES:
     colors = [
       BLACK,
@@ -185,8 +227,21 @@ def apply_colors(pixels, image):
         int(4 << 16),
         int(5 << 16)
       ],
-      int((2 << 16) + (2 << 8))
-    ]
+      int((2 << 16) + (2 << 8))]
+  elif image == GHOST:
+    colors = [
+      BLACK,
+      int((4 << 16) + (4 << 8) + 4),
+      int((1 << 16)),
+      [
+        int((4 << 16) + (4 << 8) + 4),
+        int((3 << 16) + (3 << 8) + 3),
+      ],
+      [
+        int((2 << 16) + (2 << 8) + 2),
+        int((1 << 16) + (1 << 8) + 1),
+        BLACK
+      ]]
 
   for row in range(0, 16):
     for column in range(0, 16):
