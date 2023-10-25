@@ -1,3 +1,4 @@
+import random
 import time
 
 from light_strip import LightStrip, BLACK
@@ -8,18 +9,20 @@ BAT = 0
 PUMPKIN = 1
 SKULL = 3
 BOO = 4
+EYES = 5
 
 IMAGES = [
   BAT,
   PUMPKIN,
-  SKULL
+  SKULL,
+  EYES
 ]
-
-COLOR_1 = 1
-COLOR_2 = 2
 
 
 def load_image_data(image=SKULL, frame=0) -> dict:
+  COLOR_1 = 1
+  COLOR_2 = 2
+
   row = 0
   column = 0
   mirror = False
@@ -126,6 +129,20 @@ def load_image_data(image=SKULL, frame=0) -> dict:
       [ [COLOR_1, range(0, 10)] ],
       [ [COLOR_1, range(0, 9)] ]
     ]
+  elif image == EYES:
+    row = 3
+    column = 1
+    mirror = True
+    row_data = [
+      [ [COLOR_1, [0, 1]] ],
+      [ [COLOR_1, [2, 3]] ],
+      [ [COLOR_1, [4, 5]], [COLOR_2, [1]] ],
+      [ [COLOR_2, range(0, 4)] ],
+      [ [COLOR_2, [0, 1, 4, 5]] ],
+      [ [COLOR_2, [0, 1, 4, 5]] ],
+      [ [COLOR_2, range(0, 6)] ],
+      [ [COLOR_2, range(1, 5)] ],
+    ]
 
   return {
     'row': row,
@@ -157,12 +174,28 @@ def apply_colors(pixels, image):
       BLACK,
       int((1 << 16) + (1 << 8) + 4)
     ]
+  elif image == EYES:
+    colors = [
+      BLACK,
+      int(4 << 16),
+      [
+        int(6 << 16),
+        int(2 << 16),
+        int(3 << 16),
+        int(4 << 16),
+        int(5 << 16)
+      ],
+      int((2 << 16) + (2 << 8))
+    ]
 
   for row in range(0, 16):
     for column in range(0, 16):
       index = (row * 16) + column
       color = colors[pixels[index]]
-      pixels[index] = color
+      if type(color) is int:
+        pixels[index] = color
+      elif type(color) is list:
+        pixels[index] = random.choice(color)
 
 
 def display(pixels, light_strip: LightStrip, duration=60, image=BAT):
