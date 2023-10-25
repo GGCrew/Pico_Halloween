@@ -7,6 +7,7 @@ from pixels import display_pixels
 BAT = 0
 PUMPKIN = 1
 SKULL = 3
+BOO = 4
 
 IMAGES = [
   BAT,
@@ -21,11 +22,13 @@ COLOR_2 = 2
 def load_image_data(image=SKULL, frame=0) -> dict:
   row = 0
   column = 0
+  mirror = False
   row_data = []
 
   if image == BAT:
     row = 3
     column = 0
+    mirror = True
     row_data = [
       [ [COLOR_1, [6]] ],
       [ [COLOR_1, [1,2,6]], [COLOR_2, [7]] ],
@@ -42,6 +45,7 @@ def load_image_data(image=SKULL, frame=0) -> dict:
   elif image == PUMPKIN:
     row = 1
     column = 2
+    mirror = True
     row_data = [
       [ [COLOR_2, [6, 7]] ],
       [ [COLOR_2, [5]] ],
@@ -61,6 +65,7 @@ def load_image_data(image=SKULL, frame=0) -> dict:
   elif image == SKULL:
     row = 1
     column = 2
+    mirror = True
     frame = frame % 2
     if frame == 0:
       row_data = [
@@ -95,10 +100,37 @@ def load_image_data(image=SKULL, frame=0) -> dict:
         [ [COLOR_1, range(3, 6)] ],
         [ [COLOR_1, [4, 5]] ]
       ]
+  elif image == BOO:
+    # In development
+    # TODO
+    # plan: create an extra wide array to hold entire "BOO" image (plus padding)
+    #       and scroll the 16x16 frame across the image
+    row = 1
+    column = 1
+    mirror = False
+    frame = frame % 16
+    column = 15 - frame
+    row_data = [
+      [ [COLOR_1, range(0, 8)] ],
+      [ [COLOR_1, range(0, 9)] ],
+      [ [COLOR_1, [0, 1, 6, 7, 8]] ],
+      [ [COLOR_1, [0, 1, 7, 8]] ],
+      [ [COLOR_1, [0, 1, 7, 8]] ],
+      [ [COLOR_1, [0, 1, 6, 7, 8]] ],
+      [ [COLOR_1, range(0, 8)] ],
+      [ [COLOR_1, range(0, 9)] ],
+      [ [COLOR_1, [0, 1, 7, 8, 9]] ],
+      [ [COLOR_1, [0, 1, 8, 9]] ],
+      [ [COLOR_1, [0, 1, 8, 9]] ],
+      [ [COLOR_1, [0, 1, 7, 8, 9]] ],
+      [ [COLOR_1, range(0, 10)] ],
+      [ [COLOR_1, range(0, 9)] ]
+    ]
 
   return {
     'row': row,
     'column': column,
+    'mirror': mirror,
     'frame': frame,
     'row_data': row_data
   }
@@ -120,6 +152,11 @@ def apply_colors(pixels, image):
       BLACK,
       int((4 << 16) + (4 << 8) + 4),
       int(8 << 16)]
+  elif image == BOO:
+    colors = [
+      BLACK,
+      int((1 << 16) + (1 << 8) + 4)
+    ]
 
   for row in range(0, 16):
     for column in range(0, 16):
@@ -137,9 +174,10 @@ def display(pixels, light_strip: LightStrip, duration=60, image=BAT):
     image_data = load_image_data(image=image, frame=frame)
     row = image_data['row']
     column = image_data['column']
-    frame = image_data['frame']
+    mirror = image_data['mirror']
     row_data = image_data['row_data']
 
+    frame = image_data['frame']
     frame += 1
 
     # reset pixels
@@ -152,7 +190,8 @@ def display(pixels, light_strip: LightStrip, duration=60, image=BAT):
         color, offsets = pixel_data
         for offset in offsets:
           pixels[(16 * (row + index)) + column + offset] = color
-          pixels[(16 * (row + index)) + (15 - column - offset)] = color
+          if mirror:
+            pixels[(16 * (row + index)) + (15 - column - offset)] = color
 
     apply_colors(pixels=pixels, image=image)
 
