@@ -8,6 +8,12 @@ BAT = 0
 PUMPKIN = 1
 SKULL = 3
 
+IMAGES = [
+  BAT,
+  PUMPKIN,
+  SKULL
+]
+
 COLOR_1 = 1
 COLOR_2 = 2
 

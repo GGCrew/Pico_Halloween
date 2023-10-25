@@ -1,6 +1,7 @@
 import array
 import json
 import machine
+import random
 import time
 
 from light_strip import LightStrip, BLACK
@@ -71,7 +72,8 @@ def main():
         print(index, datum)
 
       if sensor_data[0] < 500.0:
-        holidays.halloween.display(pixels=pixels, light_strip=light_strip, duration=3)
+        image = random.choice(holidays.halloween.IMAGES)
+        holidays.halloween.display(pixels=pixels, light_strip=light_strip, duration=3, image=image)
         light_strip.off()
       else:
         time.sleep_ms(250)
