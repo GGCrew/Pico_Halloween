@@ -192,87 +192,32 @@ def copy_skull_data_to_pixel_array(pixels):
   row = 1
   column = 2
 
-  row += 0
-  offsets = range(3, 6)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+  row_data = [
+    [ [COLOR_1, range(3, 6)] ],
+    [ [COLOR_1, range(1, 6)] ],
+    [ [COLOR_1, range(0, 6)] ],
+    [ [COLOR_1, [0, 1, 5]] ],
+    [ [COLOR_1, [0, 1, 5]], [COLOR_2, [3]] ],
+    [ [COLOR_1, [0, 1, 5]] ],
+    [ [COLOR_1, range(0, 6)] ],
+    [ [COLOR_1, [0, 2, 3, 4]] ],
+    [ [COLOR_1, [1, 3, 4, 5]] ],
+    [ [COLOR_1, [1, 2, 4, 5]] ],
+    [ [COLOR_1, [2, 3]] ],
+    [ [COLOR_1, range(3, 6)] ],
+    [ [COLOR_1, [4, 5] ]]
+  ]
 
-  row += 1
-  offsets = range(1, 6)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = range(0, 6)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [0, 1, 5]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [0, 1, 5]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-  offsets = [3]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_2
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_2
-
-  row += 1
-  offsets = [0, 1, 5]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = range(0, 6)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [0, 2, 3, 4]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [1, 3, 4, 5]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [1, 2, 4, 5]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [2, 3]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = range(3, 6)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [4, 5]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+  for index, row_pixel_data in enumerate(row_data):
+    print(index, row_pixel_data)
+    for pixel_data in row_pixel_data:
+      print(pixel_data)
+      color, offsets = pixel_data
+      print(color, offsets)
+      for offset in offsets:
+        print(offset)
+        pixels[(16 * (row + index)) + column + offset] = color
+        pixels[(16 * (row + index)) + (15 - column - offset)] = color
 
 
 def apply_colors(pixels, image):
