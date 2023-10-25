@@ -8,10 +8,11 @@ BAT = 0
 PUMPKIN = 1
 SKULL = 3
 
-def copy_bat_data_to_pixel_array(pixels):
-  COLOR_1 = 1
-  COLOR_2 = 2
+COLOR_1 = 1
+COLOR_2 = 2
 
+
+def copy_bat_data_to_pixel_array(pixels):
   for pixel_index in range(len(pixels)):
     pixels[pixel_index] = BLACK
 
@@ -90,9 +91,6 @@ def copy_bat_data_to_pixel_array(pixels):
 
 
 def copy_pumpkin_data_to_pixel_array(pixels):
-  COLOR_1 = 1
-  COLOR_2 = 2
-
   for pixel_index in range(len(pixels)):
     pixels[pixel_index] = BLACK
 
@@ -183,15 +181,6 @@ def copy_pumpkin_data_to_pixel_array(pixels):
 
 
 def copy_skull_data_to_pixel_array(pixels):
-  COLOR_1 = 1
-  COLOR_2 = 2
-
-  for pixel_index in range(len(pixels)):
-    pixels[pixel_index] = BLACK
-
-  row = 1
-  column = 2
-
   row_data = [
     [ [COLOR_1, range(3, 6)] ],
     [ [COLOR_1, range(1, 6)] ],
@@ -207,6 +196,12 @@ def copy_skull_data_to_pixel_array(pixels):
     [ [COLOR_1, range(3, 6)] ],
     [ [COLOR_1, [4, 5] ]]
   ]
+
+  for pixel_index in range(len(pixels)):
+    pixels[pixel_index] = BLACK
+
+  row = 1
+  column = 2
 
   for index, row_pixel_data in enumerate(row_data):
     print(index, row_pixel_data)
