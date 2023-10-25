@@ -4,7 +4,10 @@ from light_strip import LightStrip, BLACK
 from pixels import display_pixels
 
 
-def copy_data_to_pixel_array(pixels):
+BAT = 0
+PUMPKIN = 1
+
+def copy_bat_data_to_pixel_array(pixels):
   COLOR_1 = 1
   COLOR_2 = 2
 
@@ -85,11 +88,111 @@ def copy_data_to_pixel_array(pixels):
     pixels[(16 * row) + column + (15 - offset)] = COLOR_1
 
 
-def apply_colors(pixels):
-  colors = [
-    int(1),
-    BLACK,
-    int((1 << 16))]
+def copy_pumpkin_data_to_pixel_array(pixels):
+  COLOR_1 = 1
+  COLOR_2 = 2
+
+  for pixel_index in range(len(pixels)):
+    pixels[pixel_index] = BLACK
+
+  row = 1
+  column = 2
+
+  row += 0
+  offsets = [6, 7]
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_2
+
+  row += 1
+  offsets = [5, 6]
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_2
+
+  row += 1
+  offsets = range(2, 6)
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = range(1, 6)
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = [0, 1, 2, 4, 5]
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = [0, 1, 5]
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = range(0, 6)
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = range(0, 5)
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = [0, 2, 3, 4 ,5]
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = [0, 3 ,5]
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = [0, 1]
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = range(1, 4)
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = range(2, 6)
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+  row += 1
+  offsets = range(3, 6)
+  for offset in offsets:
+    pixels[(16 * row) + column + offset] = COLOR_1
+    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
+
+
+def apply_colors(pixels, image):
+  if image == BAT:
+    colors = [
+      int(1),
+      BLACK,
+      int((1 << 16))]
+  elif image == PUMPKIN:
+    colors = [
+      BLACK,
+      int((4 << 16) + (1 << 8)),
+      int(1 << 8)]
+
   for row in range(0, 16):
     for column in range(0, 16):
       index = (row * 16) + column
@@ -97,11 +200,15 @@ def apply_colors(pixels):
       pixels[index] = color
 
 
-def display(pixels, light_strip: LightStrip, duration = 60):
+def display(pixels, light_strip: LightStrip, duration=60, image=PUMPKIN):
   timeout = time.time() + duration
 
-  copy_data_to_pixel_array(pixels=pixels)
-  apply_colors(pixels=pixels)
+  if image == BAT:
+    copy_bat_data_to_pixel_array(pixels=pixels)
+  elif image == PUMPKIN:
+    copy_pumpkin_data_to_pixel_array(pixels=pixels)
+
+  apply_colors(pixels=pixels, image=image)
 
   while time.time() < timeout:
     display_pixels(pixels=pixels, light_strip=light_strip)
