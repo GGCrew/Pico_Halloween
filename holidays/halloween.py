@@ -180,22 +180,41 @@ def copy_pumpkin_data_to_pixel_array(pixels):
     pixels[(16 * row) + (15 - column - offset)] = COLOR_1
 
 
-def copy_skull_data_to_pixel_array(pixels):
-  row_data = [
-    [ [COLOR_1, range(3, 6)] ],
-    [ [COLOR_1, range(1, 6)] ],
-    [ [COLOR_1, range(0, 6)] ],
-    [ [COLOR_1, [0, 1, 5]] ],
-    [ [COLOR_1, [0, 1, 5]], [COLOR_2, [3]] ],
-    [ [COLOR_1, [0, 1, 5]] ],
-    [ [COLOR_1, range(0, 6)] ],
-    [ [COLOR_1, [0, 2, 3, 4]] ],
-    [ [COLOR_1, [1, 3, 4, 5]] ],
-    [ [COLOR_1, [1, 2, 4, 5]] ],
-    [ [COLOR_1, [2, 3]] ],
-    [ [COLOR_1, range(3, 6)] ],
-    [ [COLOR_1, [4, 5] ]]
-  ]
+def copy_skull_data_to_pixel_array(pixels, frame=0):
+  frame = frame % 2
+  if frame == 0:
+    row_data = [
+      [ [COLOR_1, range(3, 6)] ],
+      [ [COLOR_1, range(1, 6)] ],
+      [ [COLOR_1, range(0, 6)] ],
+      [ [COLOR_1, [0, 1, 5]] ],
+      [ [COLOR_1, [0, 1, 5]], [COLOR_2, [3]] ],
+      [ [COLOR_1, [0, 1, 5]] ],
+      [ [COLOR_1, range(0, 6)] ],
+      [ [COLOR_1, [0, 2, 3, 4]] ],
+      [ [COLOR_1, [1, 3, 4, 5]] ],
+      [ [COLOR_1, [1, 2, 4, 5]] ],
+      [ [COLOR_1, [2, 3]] ],
+      [ [COLOR_1, range(3, 6)] ],
+      [ [COLOR_1, [4, 5]] ]
+    ]
+  elif frame == 1:
+    row_data = [
+      [ [COLOR_1, range(3, 6)] ],
+      [ [COLOR_1, range(1, 6)] ],
+      [ [COLOR_1, range(0, 6)] ],
+      [ [COLOR_1, [0, 1, 5]] ],
+      [ [COLOR_1, [0, 1, 5]], [COLOR_2, [3]] ],
+      [ [COLOR_1, [0, 1, 5]] ],
+      [ [COLOR_1, range(0, 6)] ],
+      [ [COLOR_1, [2, 3, 4]] ],
+      [ [COLOR_1, [0, 3, 4, 5]] ],
+      [ [COLOR_1, [1, 4, 5]] ],
+      [ [COLOR_1, [1, 2]] ],
+      [ [COLOR_1, [2, 3]] ],
+      [ [COLOR_1, range(3, 6)] ],
+      [ [COLOR_1, [4, 5]] ]
+    ]
 
   for pixel_index in range(len(pixels)):
     pixels[pixel_index] = BLACK
@@ -241,16 +260,18 @@ def apply_colors(pixels, image):
 
 def display(pixels, light_strip: LightStrip, duration=60, image=SKULL):
   timeout = time.time() + duration
-
-  if image == BAT:
-    copy_bat_data_to_pixel_array(pixels=pixels)
-  elif image == PUMPKIN:
-    copy_pumpkin_data_to_pixel_array(pixels=pixels)
-  elif image == SKULL:
-    copy_skull_data_to_pixel_array(pixels=pixels)
-
-  apply_colors(pixels=pixels, image=image)
+  frame = 0
 
   while time.time() < timeout:
+    if image == BAT:
+      copy_bat_data_to_pixel_array(pixels=pixels)
+    elif image == PUMPKIN:
+      copy_pumpkin_data_to_pixel_array(pixels=pixels)
+    elif image == SKULL:
+      copy_skull_data_to_pixel_array(pixels=pixels, frame=frame)
+      frame += 1
+
+    apply_colors(pixels=pixels, image=image)
+
     display_pixels(pixels=pixels, light_strip=light_strip)
-    time.sleep_ms(500)
+    time.sleep_ms(50)
