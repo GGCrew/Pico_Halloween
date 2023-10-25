@@ -1,0 +1,6 @@
+{
+  "rgb_order": "GRB",
+  "brightness": 1.0,
+  "gpio_pin_number": 0,
+  "number_of_pixels": 256
+}
