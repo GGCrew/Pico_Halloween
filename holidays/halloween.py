@@ -12,211 +12,83 @@ COLOR_1 = 1
 COLOR_2 = 2
 
 
-def copy_bat_data_to_pixel_array(pixels):
-  for pixel_index in range(len(pixels)):
-    pixels[pixel_index] = BLACK
-
-  row = 3
+def load_image_data(image=SKULL, frame=0) -> dict:
+  row = 0
   column = 0
+  row_data = []
 
-  row += 0
-  offsets = [6]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-
-  row += 1
-  offsets = [1,2,6]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-  offsets = [7]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_2
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_2
-
-  row += 1
-  offsets = [2,3,4,7]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-
-  row += 1
-  offsets = [3,4,5,6,7]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-
-  row += 1
-  offsets = [4,5,6,7]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-
-  row += 1
-  offsets = [5,6,7]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-
-  row += 1
-  offsets = [6,7]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-
-  row += 1
-  offsets = [6,7]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-
-  row += 1
-  offsets = [7]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-
-  row += 1
-  offsets = [7]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-
-  row += 1
-  offsets = [6]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + column + (15 - offset)] = COLOR_1
-
-
-def copy_pumpkin_data_to_pixel_array(pixels):
-  for pixel_index in range(len(pixels)):
-    pixels[pixel_index] = BLACK
-
-  row = 1
-  column = 2
-
-  row += 0
-  offsets = [6, 7]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_2
-
-  row += 1
-  offsets = [5, 6]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_2
-
-  row += 1
-  offsets = range(2, 6)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = range(1, 6)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [0, 1, 2, 4, 5]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [0, 1, 5]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = range(0, 6)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = range(0, 5)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [0, 2, 3, 4 ,5]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [0, 3 ,5]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = [0, 1]
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = range(1, 4)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = range(2, 6)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-  row += 1
-  offsets = range(3, 6)
-  for offset in offsets:
-    pixels[(16 * row) + column + offset] = COLOR_1
-    pixels[(16 * row) + (15 - column - offset)] = COLOR_1
-
-
-def skull_image_data(frame=0) -> dict:
-  row = 1
-  column = 2
-  frame = frame % 2
-  if frame == 0:
+  if image == BAT:
+    row = 3
+    column = 0
     row_data = [
-      [ [COLOR_1, range(3, 6)] ],
-      [ [COLOR_1, range(1, 6)] ],
-      [ [COLOR_1, range(0, 6)] ],
-      [ [COLOR_1, [0, 1, 5]] ],
-      [ [COLOR_1, [0, 1, 5]], [COLOR_2, [3]] ],
-      [ [COLOR_1, [0, 1, 5]] ],
-      [ [COLOR_1, range(0, 6)] ],
-      [ [COLOR_1, [0, 2, 3, 4]] ],
-      [ [COLOR_1, [1, 3, 4, 5]] ],
-      [ [COLOR_1, [1, 2, 4, 5]] ],
-      [ [COLOR_1, [2, 3]] ],
-      [ [COLOR_1, range(3, 6)] ],
-      [ [COLOR_1, [4, 5]] ]
+      [ [COLOR_1, [6]] ],
+      [ [COLOR_1, [1,2,6]], [COLOR_2, [7]] ],
+      [ [COLOR_1, [2,3,4,7]] ],
+      [ [COLOR_1, [3,4,5,6,7]] ],
+      [ [COLOR_1, [4,5,6,7]] ],
+      [ [COLOR_1, [5,6,7]] ],
+      [ [COLOR_1, [6,7]] ],
+      [ [COLOR_1, [6,7]] ],
+      [ [COLOR_1, [7]] ],
+      [ [COLOR_1, [7]] ],
+      [ [COLOR_1, [6]] ]
     ]
-  elif frame == 1:
+  elif image == PUMPKIN:
+    row = 1
+    column = 2
     row_data = [
-      [ [COLOR_1, range(3, 6)] ],
+      [ [COLOR_2, [6, 7]] ],
+      [ [COLOR_2, [5]] ],
+      [ [COLOR_1, range(2, 6)] ],
       [ [COLOR_1, range(1, 6)] ],
-      [ [COLOR_1, range(0, 6)] ],
-      [ [COLOR_1, [0, 1, 5]] ],
-      [ [COLOR_1, [0, 1, 5]], [COLOR_2, [3]] ],
+      [ [COLOR_1, [0, 1, 2, 4, 5]] ],
       [ [COLOR_1, [0, 1, 5]] ],
       [ [COLOR_1, range(0, 6)] ],
-      [ [COLOR_1, [2, 3, 4]] ],
-      [ [COLOR_1, [0, 3, 4, 5]] ],
-      [ [COLOR_1, [1, 4, 5]] ],
-      [ [COLOR_1, [1, 2]] ],
-      [ [COLOR_1, [2, 3]] ],
-      [ [COLOR_1, range(3, 6)] ],
-      [ [COLOR_1, [4, 5]] ]
+      [ [COLOR_1, range(0, 5)] ],
+      [ [COLOR_1, [0, 2, 3, 4 ,5]] ],
+      [ [COLOR_1, [0, 3 ,5]] ],
+      [ [COLOR_1, [0, 1]] ],
+      [ [COLOR_1, range(1, 4)] ],
+      [ [COLOR_1, range(2, 6)] ],
+      [ [COLOR_1, range(3, 6)] ]
     ]
+  elif image == SKULL:
+    row = 1
+    column = 2
+    frame = frame % 2
+    if frame == 0:
+      row_data = [
+        [ [COLOR_1, range(3, 6)] ],
+        [ [COLOR_1, range(1, 6)] ],
+        [ [COLOR_1, range(0, 6)] ],
+        [ [COLOR_1, [0, 1, 5]] ],
+        [ [COLOR_1, [0, 1, 5]], [COLOR_2, [3]] ],
+        [ [COLOR_1, [0, 1, 5]] ],
+        [ [COLOR_1, range(0, 6)] ],
+        [ [COLOR_1, [0, 2, 3, 4]] ],
+        [ [COLOR_1, [1, 3, 4, 5]] ],
+        [ [COLOR_1, [1, 2, 4, 5]] ],
+        [ [COLOR_1, [2, 3]] ],
+        [ [COLOR_1, range(3, 6)] ],
+        [ [COLOR_1, [4, 5]] ]
+      ]
+    elif frame == 1:
+      row_data = [
+        [ [COLOR_1, range(3, 6)] ],
+        [ [COLOR_1, range(1, 6)] ],
+        [ [COLOR_1, range(0, 6)] ],
+        [ [COLOR_1, [0, 1, 5]] ],
+        [ [COLOR_1, [0, 1, 5]], [COLOR_2, [3]] ],
+        [ [COLOR_1, [0, 1, 5]] ],
+        [ [COLOR_1, range(0, 6)] ],
+        [ [COLOR_1, [2, 3, 4]] ],
+        [ [COLOR_1, [0, 3, 4, 5]] ],
+        [ [COLOR_1, [1, 4, 5]] ],
+        [ [COLOR_1, [1, 2]] ],
+        [ [COLOR_1, [2, 3]] ],
+        [ [COLOR_1, range(3, 6)] ],
+        [ [COLOR_1, [4, 5]] ]
+      ]
 
   return {
     'row': row,
@@ -250,38 +122,35 @@ def apply_colors(pixels, image):
       pixels[index] = color
 
 
-def display(pixels, light_strip: LightStrip, duration=60, image=SKULL):
+def display(pixels, light_strip: LightStrip, duration=60, image=BAT):
   timeout = time.time() + duration
+
   frame = 0
 
   while time.time() < timeout:
-    if image == BAT:
-      copy_bat_data_to_pixel_array(pixels=pixels)
-    elif image == PUMPKIN:
-      copy_pumpkin_data_to_pixel_array(pixels=pixels)
-    elif image == SKULL:
-      # copy_skull_data_to_pixel_array(pixels=pixels, frame=frame)
-      for pixel_index in range(len(pixels)):
-        pixels[pixel_index] = BLACK
+    image_data = load_image_data(image=image, frame=frame)
+    row = image_data['row']
+    column = image_data['column']
+    frame = image_data['frame']
+    row_data = image_data['row_data']
 
-      image_data = skull_image_data(frame)
-      row = image_data['row']
-      column = image_data['column']
-      frame = image_data['frame']
-      row_data = image_data['row_data']
+    frame += 1
 
-      for index, row_pixel_data in enumerate(row_data):
-        print(index, row_pixel_data)
-        for pixel_data in row_pixel_data:
-          print(pixel_data)
-          color, offsets = pixel_data
-          print(color, offsets)
-          for offset in offsets:
-            print(offset)
-            pixels[(16 * (row + index)) + column + offset] = color
-            pixels[(16 * (row + index)) + (15 - column - offset)] = color
+    # reset pixels
+    for pixel_index in range(len(pixels)):
+      pixels[pixel_index] = BLACK
 
-      frame += 1
+    # assign image data
+    for index, row_pixel_data in enumerate(row_data):
+      print(index, row_pixel_data)
+      for pixel_data in row_pixel_data:
+        print(pixel_data)
+        color, offsets = pixel_data
+        print(color, offsets)
+        for offset in offsets:
+          print(offset)
+          pixels[(16 * (row + index)) + column + offset] = color
+          pixels[(16 * (row + index)) + (15 - column - offset)] = color
 
     apply_colors(pixels=pixels, image=image)
 
