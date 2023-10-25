@@ -33,12 +33,8 @@ def main():
   # update lights
   try:
     pixels = array.array("I", [BLACK for _ in range(settings['hardware']['number_of_pixels'])])
-    counter = 0
     while True:
-      counter += 1
-      print(counter)
-
-      holidays.halloween.display(pixels=pixels, light_strip=light_strip, duration=1)
+      holidays.halloween.display(pixels=pixels, light_strip=light_strip)
 
   except KeyboardInterrupt:
     print('Ctrl+C received')
