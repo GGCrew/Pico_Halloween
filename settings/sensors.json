@@ -1,0 +1,3 @@
+[
+  {"trigger_gpio_pin_number": 9,  "echo_gpio_pin_number": 10}
+]
