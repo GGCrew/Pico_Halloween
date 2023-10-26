@@ -71,7 +71,7 @@ def main():
       for index, datum in enumerate(sensor_data):
         print(index, datum)
 
-      if sensor_data[0] < 500.0:
+      if int(sensor_data[0]) in range(0, 1200):
         image = random.choice(holidays.halloween.IMAGES)
         holidays.halloween.display(pixels=pixels, light_strip=light_strip, duration=3, image=image)
         light_strip.off()
