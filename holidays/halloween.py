@@ -21,6 +21,39 @@ IMAGES = [
 ]
 
 
+# assign row data for "BOO" image
+boo_row_data = []
+boo_row_data.append([range(0, 8),     range(16, 22),                range(32, 38),                [44, 45]])
+boo_row_data.append([range(0, 9),     range(15, 23),                range(31, 39),                [44, 45]])
+boo_row_data.append([[0, 1, 6, 7, 8], [14, 15, 16],   [21, 22, 23], [30, 31, 32],   [37, 38, 39], [44, 45]])
+boo_row_data.append([[0, 1, 7, 8],    [13, 14, 15],   [22, 23, 24], [29, 30, 31],   [38, 39, 40], [44, 45]])
+boo_row_data.append([[0, 1, 7, 8],    [13, 14],       [23, 24],     [29, 30],       [39, 40],     [44, 45]])
+boo_row_data.append([[0, 1, 6, 7, 8], [13, 14],       [23, 24],     [29, 30],       [39, 40],     [44, 45]])
+boo_row_data.append([range(0, 8),     [13, 14],       [23, 24],     [29, 30],       [39, 40],     [44, 45]])
+boo_row_data.append([range(0, 9),     [13, 14],       [23, 24],     [29, 30],       [39, 40],     [44, 45]])
+boo_row_data.append([[0, 1, 7, 8, 9], [13, 14],       [23, 24],     [29, 30],       [39, 40],     [44, 45]])
+boo_row_data.append([[0, 1, 8, 9],    [13, 14],       [23, 24],     [29, 30],       [39, 40],     [44, 45]])
+boo_row_data.append([[0, 1, 8, 9],    [13, 14, 15],   [22, 23, 24], [29, 30, 31],   [38, 39, 40]])
+boo_row_data.append([[0, 1, 7, 8, 9], [14, 15, 16],   [21, 22, 23], [30, 31, 32],   [37, 38, 39]])
+boo_row_data.append([range(0, 10),    range(15, 23),                range(31, 39),                [44, 45]])
+boo_row_data.append([range(0, 9),     range(16, 22),                range(32, 38),                [44, 45]])
+
+boo_image_rows = len(boo_row_data)
+boo_image_columns = 46
+
+# initialize the "BOO" image space
+boo_image = [[0 for _ in range(boo_image_columns)] for _ in range(boo_image_rows)]
+
+# set image data
+for row, row_datum in enumerate(boo_row_data):
+  for column_data in row_datum:
+    for column in column_data:
+      boo_image[row][column] = 1
+
+padding = [0 for _ in range(16)]
+boo_image = [(padding + image_row + padding) for image_row in boo_image]
+
+
 def load_image_data(image=SKULL, frame=0) -> dict:
   COLOR_1 = 1
   COLOR_2 = 2
@@ -109,30 +142,20 @@ def load_image_data(image=SKULL, frame=0) -> dict:
       ]
   elif image == BOO:
     # In development
-    # TODO
-    # plan: create an extra wide array to hold entire "BOO" image (plus padding)
-    #       and scroll the 16x16 frame across the image
+    # TODO: test on actual hardware
+
+    # display image in terminal for debugging/previewing
+    # for row in boo_image:
+    #   print(''.join([' ' if item == 0 else '#' for item in row]))
+
+    total_frames = len(boo_image[0]) - 16
+    frame = frame % total_frames
+
+    row_data = [[[item, [index]] for index, item in enumerate(image_row[frame:(frame + 16)])] for image_row in boo_image]
+
     row = 1
-    column = 1
+    column = 0
     mirror = False
-    frame = frame % 16
-    column = 15 - frame
-    row_data = [
-      [ [COLOR_1, range(0, 8)] ],
-      [ [COLOR_1, range(0, 9)] ],
-      [ [COLOR_1, [0, 1, 6, 7, 8]] ],
-      [ [COLOR_1, [0, 1, 7, 8]] ],
-      [ [COLOR_1, [0, 1, 7, 8]] ],
-      [ [COLOR_1, [0, 1, 6, 7, 8]] ],
-      [ [COLOR_1, range(0, 8)] ],
-      [ [COLOR_1, range(0, 9)] ],
-      [ [COLOR_1, [0, 1, 7, 8, 9]] ],
-      [ [COLOR_1, [0, 1, 8, 9]] ],
-      [ [COLOR_1, [0, 1, 8, 9]] ],
-      [ [COLOR_1, [0, 1, 7, 8, 9]] ],
-      [ [COLOR_1, range(0, 10)] ],
-      [ [COLOR_1, range(0, 9)] ]
-    ]
   elif image == EYES:
     row = 3
     column = 1
@@ -256,17 +279,23 @@ def apply_colors(pixels, image):
 def display(pixels, light_strip: LightStrip, duration=60, image=BAT):
   timeout = time.time() + duration
 
-  frame = 0
+  previous_frame = -1
+  animation_in_progress = True
 
-  while time.time() < timeout:
+  while (time.time() < timeout) or (time.time() >= timeout and animation_in_progress):
+    frame = previous_frame + 1
     image_data = load_image_data(image=image, frame=frame)
     row = image_data['row']
     column = image_data['column']
     mirror = image_data['mirror']
     row_data = image_data['row_data']
 
-    frame = image_data['frame']
-    frame += 1
+    animation_in_progress &= (previous_frame < image_data['frame'])
+    previous_frame = image_data['frame']
+
+    # display image in terminal for debugging/previewing
+    # for row_pixel_data in row_data:
+    #   print(''.join([' ' if color == 0 else '#' for color, _ in [pixel_data for pixel_data in row_pixel_data]]))
 
     # reset pixels
     for pixel_index in range(len(pixels)):
